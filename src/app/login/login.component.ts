@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   constructor(private http: HttpClient , private router: Router){}
-
+  message: String = ""
   submitForm(form: NgForm) {
     const user = {
       username: form.value.username,
@@ -19,14 +19,15 @@ export class LoginComponent {
   
     this.http.get<any>(`http://localhost:8080/api/v1/login?username=${user.username}&password=${user.password}`).subscribe(
       (response) => {
-        if (response) {
-          console.log('Login successful', response);
+        if (response.success) {
+          console.log('Login successful', response.user);
 
-          localStorage.setItem('currentUser', JSON.stringify(response));
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
 
           this.router.navigate(['/items']);
         } else {
           console.log('Login failed');
+          this.message=response.message
       
         }
       },
