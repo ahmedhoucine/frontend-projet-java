@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   constructor(private http: HttpClient , private router: Router){}
-  message: String = ""
+  message: string | undefined;
   submitForm(form: NgForm) {
     const user = {
       username: form.value.username,
