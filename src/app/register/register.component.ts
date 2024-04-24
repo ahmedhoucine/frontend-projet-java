@@ -24,8 +24,8 @@ export class RegisterComponent {
     response => {
       console.log('Response:', response);
       if (response.success) {
-        console.log('User added successfully:', response.user);
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
+        console.log('User added successfully:', user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
         form.resetForm();
         this.router.navigate(['/items']); 
       }else {
