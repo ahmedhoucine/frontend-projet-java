@@ -12,6 +12,11 @@ export class AddItemComponent {
   categories: any[] = [];
 
   constructor(private http: HttpClient , private router: Router) {
+    const userData = localStorage.getItem('currentUser');
+    if (!userData) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.http.get('http://localhost:8080/api/v1/categories').subscribe(
       (response: any) => {
         console.log('response', response);

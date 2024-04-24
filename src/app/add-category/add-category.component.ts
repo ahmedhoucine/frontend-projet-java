@@ -8,7 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent {
-  constructor(private http: HttpClient ,private router: Router) {}
+  constructor(private http: HttpClient ,private router: Router) {
+    const userData = localStorage.getItem('currentUser');
+    if (!userData) {
+      this.router.navigate(['/login']);
+      return;
+    }
+  }
 
   submitForm(categoryName: string ) {
     const newCategory = { name: categoryName };

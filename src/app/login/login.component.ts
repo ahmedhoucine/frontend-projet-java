@@ -12,22 +12,27 @@ export class LoginComponent {
   constructor(private http: HttpClient , private router: Router){}
 
   submitForm(form: NgForm) {
-    const User = {
+    const user = {
       username: form.value.username,
       password: form.value.password
     };
   
-    this.http.post<any>('http://localhost:8080/api/v1/users/login', User)
-      .subscribe(
-        response => {
-          console.log('user logged in successfully:', response);
-          console.log(User);
-          form.resetForm();
-          this.router.navigate(['/items']); 
-        },
-        error => {
-          console.error('Error adding user:', error);
+    this.http.get<any>(`http://localhost:8080/api/v1/login?username=${user.username}&password=${user.password}`).subscribe(
+      (response) => {
+        if (response) {
+          console.log('Login successful', response);
+
+          localStorage.setItem('currentUser', JSON.stringify(response));
+
+          this.router.navigate(['/items']);
+        } else {
+          console.log('Login failed');
+      
         }
-      );
+      },
+      (error) => {
+        console.error('Error occurred:', error);
+      }
+    );
   }
 }

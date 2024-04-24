@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -11,9 +12,15 @@ export class CategoriesComponent {
   categories: any[] = [];
   selectedCategory: any = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private router:Router) {
+    const userData = localStorage.getItem('currentUser');
+    if (!userData) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.fetchCategories();
   }
+  
 
   fetchCategories() {
     this.http.get<any[]>('http://localhost:8080/api/v1/categories').subscribe(
